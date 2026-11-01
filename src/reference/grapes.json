@@ -1,0 +1,165 @@
+{
+  "_source": {
+    "file": "chronicle/codex-vini/grapes.json in thevinotheca/thevinotheca.com",
+    "commit": "7bc92ee",
+    "carried": "2026-11-01",
+    "rule": "PROJECT.md 4.8 as amended at v3.02",
+    "note": "Carried reference data, not the canonical file. Only this _source key is added here; the four lists below are the source's own and are not edited in this repository. A change wanted in them is made in the Library and this file re-copied."
+  },
+  "tasterank_reds": [
+    "Aglianico",
+    "Baga",
+    "Barbera",
+    "Blaufränkisch",
+    "Bobal",
+    "Cabernet Franc",
+    "Cabernet Sauvignon",
+    "Carignan",
+    "Carménère",
+    "Cinsault",
+    "Corvina",
+    "Counoise",
+    "Dolcetto",
+    "Frappato",
+    "Gamay",
+    "Garnacha Tintorera",
+    "Graciano",
+    "Grenache",
+    "Kadarka",
+    "Lagrein",
+    "Limniona",
+    "Malbec",
+    "Mavrud",
+    "Mencía",
+    "Merlot",
+    "Monastrell",
+    "Montepulciano",
+    "Mourvèdre",
+    "Nebbiolo",
+    "Negroamaro",
+    "Nerello Mascalese",
+    "Nero d'Avola",
+    "Petit Verdot",
+    "Petite Sirah",
+    "Pinot Noir",
+    "Pinotage",
+    "Plavac Mali",
+    "Poulsard",
+    "Primitivo",
+    "Sagrantino",
+    "Sangiovese",
+    "Schiava",
+    "St. Laurent",
+    "Syrah",
+    "Tannat",
+    "Tempranillo",
+    "Tinta Roriz",
+    "Touriga Franca",
+    "Touriga Nacional",
+    "Trousseau",
+    "Xinomavro",
+    "Zinfandel",
+    "Zweigelt"
+  ],
+  "tasterank_whites": [
+    "Albariño",
+    "Aligoté",
+    "Arinto",
+    "Arneis",
+    "Assyrtiko",
+    "Chardonnay",
+    "Chasselas",
+    "Chenin Blanc",
+    "Clairette",
+    "Colombard",
+    "Cortese",
+    "Encruzado",
+    "Falanghina",
+    "Fiano",
+    "Friulano",
+    "Furmint",
+    "Garganega",
+    "Gewürztraminer",
+    "Godello",
+    "Greco",
+    "Grüner Veltliner",
+    "Loureiro",
+    "Malagousia",
+    "Malvasia",
+    "Marsanne",
+    "Mauzac",
+    "Melon de Bourgogne",
+    "Muscat Blanc",
+    "Müller-Thurgau",
+    "Petit Manseng",
+    "Pinot Blanc",
+    "Pinot Gris",
+    "Ribolla Gialla",
+    "Riesling",
+    "Roussanne",
+    "Sauvignon Blanc",
+    "Silvaner",
+    "Sémillon",
+    "Torrontés",
+    "Trebbiano",
+    "Ugni Blanc",
+    "Verdejo",
+    "Verdelho",
+    "Verdicchio",
+    "Vermentino",
+    "Vidiano",
+    "Viognier",
+    "Welschriesling"
+  ],
+  "named_blends": {
+    "Bordeaux Blend": {
+      "color": "red",
+      "lead_grape": "Cabernet Sauvignon"
+    },
+    "Châteauneuf-du-Pape Blend": {
+      "color": "red",
+      "lead_grape": "Grenache"
+    },
+    "Rhône GSM Blend": {
+      "color": "red",
+      "lead_grape": "Grenache"
+    },
+    "Tuscan Blend (Super Tuscan)": {
+      "color": "red",
+      "lead_grape": "Sangiovese"
+    },
+    "Proprietary Red Blend": {
+      "color": "red",
+      "lead_grape": null
+    },
+    "Barolo": {
+      "color": "red",
+      "lead_grape": "Nebbiolo"
+    },
+    "Chianti Classico Gran Selezione": {
+      "color": "red",
+      "lead_grape": "Sangiovese"
+    },
+    "Brunello di Montalcino": {
+      "color": "red",
+      "lead_grape": "Sangiovese"
+    },
+    "Champagne / Sparkling": {
+      "color": "sparkling",
+      "lead_grape": null
+    },
+    "Rosé": {
+      "color": "rosé",
+      "lead_grape": null
+    },
+    "White Blend": {
+      "color": "white",
+      "lead_grape": null
+    }
+  },
+  "additional_varieties": {
+    "Xarel·lo": {
+      "color": "white"
+    }
+  }
+}
