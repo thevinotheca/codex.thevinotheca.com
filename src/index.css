@@ -1,6 +1,73 @@
+/* The shell. Laid out at phone width first; the carried rules in
+   vinotheca.css supply the palette, the paper and the grain. */
+
 body {
   margin: 0;
-  padding: 2rem;
-  font-family: system-ui, sans-serif;
+  font-family: var(--sans);
+  font-size: 16px;
   line-height: 1.5;
+  -webkit-text-size-adjust: 100%;
+}
+
+main.screen {
+  box-sizing: border-box;
+  min-height: 100vh;
+  min-height: 100dvh;
+  max-width: 780px;
+  margin: 0 auto;
+  padding:
+    calc(env(safe-area-inset-top) + 48px)
+    calc(env(safe-area-inset-right) + 24px)
+    calc(env(safe-area-inset-bottom) + 24px)
+    calc(env(safe-area-inset-left) + 24px);
+}
+
+.screen-title {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 40px;
+  line-height: 1.1;
+  letter-spacing: 0.01em;
+  color: var(--ink);
+  margin: 0 0 8px;
+}
+
+.screen-note {
+  font-size: 14px;
+  color: var(--ink-muted);
+  margin: 0 0 32px;
+}
+
+.screen-links {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  border-top: 1px solid var(--border);
+}
+
+.screen-links li {
+  border-bottom: 1px solid var(--border);
+}
+
+.screen-links a {
+  display: flex;
+  align-items: center;
+  min-height: 48px;
+  color: var(--wine);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.screen-links a:active {
+  color: var(--wine-dark);
+}
+
+@media (min-width: 641px) {
+  main.screen {
+    padding-top: calc(env(safe-area-inset-top) + 80px);
+    padding-left: calc(env(safe-area-inset-left) + 40px);
+    padding-right: calc(env(safe-area-inset-right) + 40px);
+  }
+
+  .screen-title { font-size: 56px; }
 }

@@ -597,4 +597,7 @@
        page uses (§4.8). */
     --sans: 'DM Sans', system-ui, sans-serif;
     --mono: 'JetBrains Mono', ui-monospace, monospace;
+
+    /* The display serif, for the shell's titles; it carries no running text. */
+    --serif: 'Cormorant Garamond', Georgia, serif;
   }
