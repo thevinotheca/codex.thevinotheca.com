@@ -143,6 +143,24 @@ test('tombstone round trip: delete, reload, it does not return', async () => {
   assert.ok(!Number.isNaN(Date.parse(tombstone.deletedAt)))
 })
 
+test('deleteEntry advances updatedAt past the prior update', async () => {
+  const name = 'delete-updated-at'
+  const store = new LocalEntryStore({ name })
+  const created = await store.createEntry(CODEX, draft())
+  const updated = await store.updateEntry(created.id, { rating: 9 })
+  // Let the clock move on, so the two timestamps cannot share a millisecond.
+  const start = Date.now()
+  while (Date.now() === start) await new Promise((r) => setTimeout(r, 1))
+  await store.deleteEntry(created.id)
+  await store.close()
+
+  const { records } = await raw(name)
+  const tombstone = records.find((r) => r.id === created.id)
+  assert.ok(tombstone)
+  assert.ok(tombstone.updatedAt > updated.updatedAt)
+  assert.equal(tombstone.deletedAt, tombstone.updatedAt)
+})
+
 test('schema-version migration is performed in place', async () => {
   const name = 'migration'
   const v1 = new LocalEntryStore({ name })

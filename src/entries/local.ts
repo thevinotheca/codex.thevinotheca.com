@@ -188,7 +188,10 @@ export class LocalEntryStore implements EntryStore {
     const tx = (await this.open()).transaction('entries', 'readwrite')
     const existing = await tx.store.get(id)
     if (!isLive(existing)) throw new Error(`No entry ${id}`)
-    await tx.store.put({ ...existing, deletedAt: new Date().toISOString() })
+    // The tombstone advances updatedAt, so it wins last-write-wins against
+    // an earlier edit made elsewhere.
+    const now = new Date().toISOString()
+    await tx.store.put({ ...existing, deletedAt: now, updatedAt: now })
     await tx.done
   }
 
