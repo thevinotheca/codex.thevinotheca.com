@@ -89,11 +89,14 @@ test('listEntries pages within one codex', async () => {
 test('updateEntry patches and sets updatedAt', async () => {
   const store = new LocalEntryStore({ name: 'update' })
   const created = await store.createEntry(CODEX, draft())
+  // Let the clock move on, so the two timestamps cannot share a millisecond.
+  const start = Date.now()
+  while (Date.now() === start) await new Promise((r) => setTimeout(r, 1))
   const updated = await store.updateEntry(created.id, { rating: 9, region: 'Burgundy' })
   assert.equal(updated.rating, 9)
   assert.equal(updated.region, 'Burgundy')
   assert.equal(updated.producer, created.producer)
-  assert.ok(updated.updatedAt >= created.updatedAt)
+  assert.ok(updated.updatedAt > created.updatedAt)
   assert.deepEqual(await store.getEntry(created.id), updated)
   await assert.rejects(store.updateEntry(created.id, { vintage: 'old' }), /vintage/)
   await assert.rejects(store.updateEntry('missing', { rating: 1 }))
