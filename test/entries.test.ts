@@ -30,6 +30,21 @@ async function raw(name: string) {
   return { records, geocode }
 }
 
+test('newEntryId without crypto.randomUUID, as outside a secure context', () => {
+  Object.defineProperty(crypto, 'randomUUID', { value: undefined, configurable: true })
+  try {
+    assert.equal(crypto.randomUUID, undefined)
+    const ids = Array.from({ length: 1000 }, newEntryId)
+    for (const id of ids) {
+      assert.match(id, /^[0-9a-f]{8}-[0-9a-f]{4}-4[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/)
+    }
+    assert.equal(new Set(ids).size, ids.length)
+  } finally {
+    delete (crypto as { randomUUID?: unknown }).randomUUID
+  }
+  assert.equal(typeof crypto.randomUUID, 'function')
+})
+
 test('createEntry and getEntry', async () => {
   const store = new LocalEntryStore({ name: 'create' })
   const d = draft({ grape: 'Chardonnay', colour: 'White', dateTasted: '2026-10-31' })
