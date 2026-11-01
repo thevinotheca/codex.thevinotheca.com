@@ -20,3 +20,7 @@ lockfile was resolved with.
     npm install
     npm run dev
     npm run build
+    npm test
+
+The tests run under Node's built-in runner against an in-memory IndexedDB
+(`fake-indexeddb`).
