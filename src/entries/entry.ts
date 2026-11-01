@@ -69,4 +69,16 @@ export function validateFields(fields: EntryFields): void {
   ) {
     throw new Error('rating must be 0.0 to 10.0 with one decimal')
   }
+  // The Book orders dates as strings, so only YYYY-MM-DD, and a real day.
+  const { dateTasted } = fields
+  if (
+    dateTasted !== undefined &&
+    !(
+      /^\d{4}-\d{2}-\d{2}$/.test(dateTasted) &&
+      !Number.isNaN(Date.parse(dateTasted)) &&
+      new Date(dateTasted).toISOString().slice(0, 10) === dateTasted
+    )
+  ) {
+    throw new Error('dateTasted must be a date written YYYY-MM-DD')
+  }
 }

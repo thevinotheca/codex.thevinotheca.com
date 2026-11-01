@@ -59,6 +59,21 @@ test('createEntry validates', async () => {
   await store.close()
 })
 
+test('createEntry and updateEntry validate dateTasted', async () => {
+  const store = new LocalEntryStore({ name: 'validate-date' })
+  for (const dateTasted of ['', '2026-1-5', '31/10/2026', '2026-10-31T20:00', '2026-02-30', '2026-13-01']) {
+    await assert.rejects(store.createEntry(CODEX, draft({ dateTasted })), /dateTasted/)
+  }
+  const created = await store.createEntry(CODEX, draft({ dateTasted: '2024-02-29' }))
+  await store.createEntry(CODEX, draft())
+  await assert.rejects(store.updateEntry(created.id, { dateTasted: '29.02.2024' }), /dateTasted/)
+  assert.equal((await store.getEntry(created.id))?.dateTasted, '2024-02-29')
+  const updated = await store.updateEntry(created.id, { dateTasted: '2026-10-31' })
+  assert.equal(updated.dateTasted, '2026-10-31')
+  assert.equal((await store.exportEntries()).length, 2)
+  await store.close()
+})
+
 test('listEntries pages within one codex', async () => {
   const store = new LocalEntryStore({ name: 'list' })
   const ids: string[] = []

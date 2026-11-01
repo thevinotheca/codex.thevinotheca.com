@@ -217,6 +217,95 @@ main.screen {
   background: var(--wine-dark);
 }
 
+button.action {
+  width: 100%;
+  border: 0;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+button.action:disabled {
+  opacity: 0.6;
+}
+
+/* The entry form. The four required fields sit above the fold, vintage and
+   rating side by side; the optional fields follow below a hairline. Inputs
+   are at least 16px so a phone does not zoom into them. */
+
+.entry-form {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+}
+
+.form-required,
+.form-optional {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.form-required {
+  margin-top: 8px;
+}
+
+.form-optional {
+  margin-top: 24px;
+  padding-top: 20px;
+  border-top: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.field-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  min-width: 0;
+}
+
+.field-label {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.field input,
+.field select {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 12px;
+  font-family: var(--sans);
+  font-size: 17px;
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.field input:focus,
+.field select:focus {
+  outline: 2px solid var(--wine-light);
+  outline-offset: -1px;
+}
+
+.field input[type='date']::-webkit-date-and-time-value {
+  text-align: left;
+}
+
+.form-error {
+  font-size: 14px;
+  color: var(--wine);
+  margin: 0 0 8px;
+}
+
 @media (max-width: 640px) {
   .meta { flex-basis: 100%; }
 }

@@ -1,9 +1,11 @@
 import type { ReactNode } from 'react'
-import { Link, Route, Routes, useParams } from 'react-router'
+import { Link, Route, Routes } from 'react-router'
 import Book from './book/Book.tsx'
+import { EditEntry, NewEntry } from './form/EntryForm.tsx'
 
 // The Book is the landing place and the hub. Every other screen carries a
-// back control to its parent; they are placeholders so far.
+// back control to its parent. The entry form is drawn; the rest are
+// placeholders so far.
 
 interface Back {
   to: string
@@ -21,11 +23,6 @@ function Screen({ title, back, children }: { title: string; back: Back; children
       {children && <ul className="screen-links">{children}</ul>}
     </main>
   )
-}
-
-function EditEntry() {
-  const { id } = useParams()
-  return <Screen title="Edit entry" back={{ to: `/entries/${id}`, label: 'Entry' }} />
 }
 
 const BOOK: Back = { to: '/', label: 'The Book' }
@@ -47,7 +44,7 @@ function App() {
         path="/atlas"
         element={<Screen title="The Atlas" back={{ to: '/where-you-have-been', label: 'Where you have been' }} />}
       />
-      <Route path="/entries/new" element={<Screen title="New entry" back={BOOK} />} />
+      <Route path="/entries/new" element={<NewEntry />} />
       <Route path="/entries/:id" element={<Screen title="Entry" back={BOOK} />} />
       <Route path="/entries/:id/edit" element={<EditEntry />} />
     </Routes>
