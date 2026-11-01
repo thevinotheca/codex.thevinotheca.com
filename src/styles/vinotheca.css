@@ -1,0 +1,600 @@
+/* vinotheca.css — carried copy, not the canonical file.
+
+   Source:  vinotheca.css at the root of thevinotheca/thevinotheca.com
+   Commit:  7bc92ee (2026-11-01)
+   Carried: 2026-11-01, under PROJECT.md §4.8 as amended at v3.00
+
+   Everything between this header and the ADDITIONS rule at the foot is
+   byte-identical to that file at that commit. It is not edited here; a change
+   wanted in it is made in the Library and this file re-copied.
+
+   Below the rule: the two families §4.8 names and the source does not carry,
+   and the two canonical palette names it spells differently. */
+
+/* vinotheca.css — rules shared by the catalogue family:
+   /, /library/, /library/maps/, /library/inquiries/,
+   /library/correspondence/, /chronicle/
+   Order follows the root page's source order. */
+
+  :root {
+    --ink: #1f1a16;
+    --ink-soft: #3a332c;
+    --ink-faint: #6b6158;
+    --paper: #FAF6F1;
+    --paper-deep: #ede5d5;
+    --paper-raised: #FFFDF8;
+    --rule: #c8b998;
+    --wine: #7B2D26;
+    --wine-dark: #5A1F1A;
+    --wine-light: #A04038;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--ink);
+    font-family: 'EB Garamond', Georgia, serif;
+    font-size: 19px;
+    line-height: 1.65;
+    min-height: 100vh;
+    background-image:
+      radial-gradient(ellipse at top, rgba(255,255,255,0.4), transparent 50%),
+      radial-gradient(ellipse at bottom right, rgba(106,36,48,0.03), transparent 60%);
+  }
+
+  /* Subtle paper grain */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    pointer-events: none;
+    z-index: 1;
+    opacity: 0.35;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.12 0 0 0 0 0.10 0 0 0 0 0.08 0 0 0 0.08 0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  main {
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 80px 40px 120px;
+    position: relative;
+    z-index: 2;
+  }
+
+  /* ---- Masthead ---- */
+
+  header.masthead {
+    text-align: center;
+    padding-bottom: 60px;
+    border-bottom: 1px solid var(--rule);
+    margin-bottom: 80px;
+  }
+
+  .masthead-eyebrow {
+    font-family: 'IM Fell English SC', 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 30px;
+  }
+
+  h1.title {
+    font-family: 'Cormorant Garamond', 'EB Garamond', serif;
+    font-weight: 500;
+    font-size: 96px;
+    letter-spacing: 0.04em;
+    line-height: 1;
+    color: var(--ink);
+    margin-bottom: 20px;
+  }
+  h1.title em {
+    font-style: italic;
+    color: var(--wine);
+  }
+
+  .tagline {
+    font-style: italic;
+    font-size: 20px;
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+    font-weight: 400;
+  }
+
+  .masthead-motto {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 16px;
+    margin: 0 auto 32px;
+    color: var(--wine);
+  }
+
+  .masthead-motto .fleuron-inline {
+    font-size: 18px;
+    opacity: 0.7;
+  }
+
+  .masthead-motto .motto-text {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 17px;
+    letter-spacing: 0.08em;
+    font-weight: 400;
+    opacity: 0.9;
+  }
+
+  .masthead-motto .motto-text em {
+    font-style: italic;
+  }
+
+  /* ---- Instrument entries ---- */
+
+  .instrument {
+    margin-bottom: 64px;
+    position: relative;
+  }
+
+  .instrument:last-child {
+    margin-bottom: 0;
+  }
+
+  .instrument-numeral {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--wine);
+    margin-bottom: 16px;
+  }
+
+  h3.instrument-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 34px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+  }
+
+  h3.instrument-title a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  h3.instrument-title a:hover {
+    color: var(--wine);
+    border-bottom-color: var(--wine);
+  }
+
+  h3.instrument-title em {
+    font-style: italic;
+    color: var(--wine);
+  }
+
+  h3.instrument-title .arrow {
+    font-size: 22px;
+    color: var(--ink-faint);
+    margin-left: 4px;
+    vertical-align: 1px;
+  }
+
+  .instrument-kicker {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 19px;
+    margin-bottom: 20px;
+  }
+
+  .instrument-body {
+    color: var(--ink-soft);
+    margin-bottom: 22px;
+  }
+
+  .instrument-meta {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 18px;
+  }
+
+  .instrument-link {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 18px;
+    color: var(--wine);
+    text-decoration: none;
+    border-bottom: 1px solid var(--wine-light);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+  }
+
+  .instrument-link:hover {
+    color: var(--wine-light);
+    border-bottom-color: var(--wine);
+  }
+
+  /* ---- "Under development" badge ---- */
+
+  .status-badge {
+    display: inline-block;
+    font-family: 'IM Fell English SC', serif;
+    font-size: 10px;
+    letter-spacing: 0.3em;
+    color: var(--paper);
+    background: var(--wine);
+    text-transform: uppercase;
+    padding: 4px 10px;
+    margin-left: 8px;
+    vertical-align: 6px;
+    border-radius: 1px;
+  }
+
+  .in-progress-note {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--ink-faint);
+    margin-top: 18px;
+  }
+
+  /* ---- Work entries (paired Tool + Study, one entry per Work) ---- */
+
+  .work {
+    margin-bottom: 72px;
+    position: relative;
+  }
+
+  .work:last-child {
+    margin-bottom: 0;
+  }
+
+  .work-numeral {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 13px;
+    letter-spacing: 0.3em;
+    color: var(--wine);
+    margin-bottom: 16px;
+  }
+
+  h3.work-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 34px;
+    margin-bottom: 10px;
+    line-height: 1.2;
+    letter-spacing: 0.005em;
+    color: var(--ink);
+  }
+
+  h3.work-title em {
+    font-style: italic;
+    color: var(--wine);
+  }
+
+  .work-kicker {
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 19px;
+    margin-bottom: 20px;
+  }
+
+  .work-body {
+    color: var(--ink-soft);
+    margin-bottom: 32px;
+  }
+
+  .work-faces {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 28px;
+    border-top: 1px solid var(--rule);
+    padding-top: 28px;
+  }
+
+  .work-face {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .face-label {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.3em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 10px;
+  }
+
+  h4.face-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 22px;
+    line-height: 1.25;
+    letter-spacing: 0.005em;
+    margin-bottom: 8px;
+  }
+
+  h4.face-title a {
+    color: var(--ink);
+    text-decoration: none;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.3s, color 0.3s;
+  }
+
+  h4.face-title a:hover {
+    color: var(--wine);
+    border-bottom-color: var(--wine);
+  }
+
+  h4.face-title em {
+    font-style: italic;
+    color: var(--wine);
+  }
+
+  h4.face-title .arrow {
+    font-size: 15px;
+    color: var(--ink-faint);
+    margin-left: 3px;
+    vertical-align: 1px;
+  }
+
+  .face-meta {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 10px;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+    margin-bottom: 14px;
+  }
+
+  .face-link {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 16px;
+    color: var(--wine);
+    text-decoration: none;
+    border-bottom: 1px solid var(--wine-light);
+    padding-bottom: 2px;
+    transition: color 0.2s, border-color 0.2s;
+    align-self: flex-start;
+    margin-top: auto;
+  }
+
+  .face-link:hover {
+    color: var(--wine-light);
+    border-bottom-color: var(--wine);
+  }
+  .work-face.forthcoming h4.face-title {
+    color: var(--ink-faint);
+  }
+
+  .face-status {
+    font-family: 'Cormorant Garamond', serif;
+    font-style: italic;
+    font-size: 14px;
+    color: var(--ink-faint);
+    margin-top: auto;
+  }
+
+  .face-status .status-badge {
+    font-size: 9px;
+    padding: 3px 8px;
+    margin-left: 0;
+    margin-right: 0;
+    vertical-align: 2px;
+  }
+
+  .in-progress-note .status-badge {
+    margin-left: 0;
+  }
+
+  /* ---- Section intro paragraph (all three sections) ---- */
+
+  .section-intro {
+    text-align: center;
+    max-width: 560px;
+    margin: 0 auto 60px;
+    font-style: italic;
+    color: var(--ink-soft);
+    font-size: 18px;
+    line-height: 1.6;
+  }
+
+  /* ---- Sub-section headings (Maps / Tools / Studies within Part One) ---- */
+
+  .subsection-header {
+    text-align: center;
+    margin-bottom: 24px;
+  }
+
+  .subsection-header h3.subsection-title {
+    font-family: 'Cormorant Garamond', serif;
+    font-weight: 500;
+    font-size: 30px;
+    color: var(--ink);
+    letter-spacing: 0.01em;
+    margin-bottom: 8px;
+  }
+
+  .subsection-header .subsection-subtitle {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.28em;
+    color: var(--ink-faint);
+    text-transform: uppercase;
+  }
+
+  .subsection-header .subsection-gloss {
+    display: block;
+    margin-top: 14px;
+    font-family: 'EB Garamond', serif;
+    font-style: italic;
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--ink-faint);
+    max-width: 440px;
+    margin-left: auto;
+    margin-right: auto;
+    line-height: 1.55;
+  }
+
+  .subsection {
+    margin-bottom: 30px;
+  }
+
+  /* Lighter divider between sub-sections within Part One */
+  .subsection-divider {
+    text-align: center;
+    margin: 56px 0 56px;
+    color: var(--rule);
+    font-size: 14px;
+    letter-spacing: 0.4em;
+    opacity: 0.7;
+  }
+
+  /* ---- Placeholder (forthcoming) instrument cards ---- */
+
+  .instrument.forthcoming h3.instrument-title {
+    cursor: default;
+  }
+
+  .status-badge.forthcoming {
+    background: transparent;
+    color: var(--wine);
+    border: 1px solid var(--wine);
+    font-weight: 400;
+  }
+
+  /* ---- Footer ---- */
+
+  footer {
+    margin-top: 120px;
+    padding-top: 50px;
+    border-top: 1px solid var(--rule);
+    text-align: center;
+    color: var(--ink-faint);
+    font-size: 14px;
+  }
+
+  .motto-footer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 20px;
+    margin-bottom: 40px;
+    color: var(--wine);
+  }
+
+  .motto-footer .fleuron-inline {
+    font-size: 20px;
+    opacity: 0.8;
+  }
+
+  .motto-footer .motto-text-footer {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    letter-spacing: 0.06em;
+    font-weight: 400;
+  }
+
+  .motto-footer .motto-text-footer em {
+    font-style: italic;
+  }
+
+  .footer-links {
+    margin-bottom: 24px;
+  }
+
+  .footer-links a {
+    color: var(--ink-soft);
+    text-decoration: none;
+    margin: 0 14px;
+    font-size: 14px;
+    border-bottom: 1px solid transparent;
+    transition: border-color 0.2s, color 0.2s;
+  }
+
+  .footer-links a:hover {
+    color: var(--wine);
+    border-bottom-color: var(--wine);
+  }
+
+  .copyright {
+    font-family: 'IM Fell English SC', serif;
+    font-size: 11px;
+    letter-spacing: 0.25em;
+    color: var(--ink-faint);
+  }
+
+  /* ---- Responsive ---- */
+
+  /* Phone */
+  @media (max-width: 640px) {
+    main { padding: 60px 24px 80px; }
+    h1.title { font-size: 64px; }
+    h3.instrument-title { font-size: 26px; }
+    h3.work-title { font-size: 26px; }
+    .work-faces { grid-template-columns: 1fr; gap: 32px; }
+    body { font-size: 18px; }
+    .subsection-header h3.subsection-title { font-size: 24px; }
+    .subsection-divider { margin: 44px 0 44px; }
+}
+
+  /* Tablet (iPad portrait and landscape) */
+  @media (min-width: 641px) and (max-width: 1024px) {
+    main {
+      max-width: 680px;
+      padding: 64px 48px 100px;
+    }
+    h1.title { font-size: 80px; }
+    .tagline { font-size: 19px; }
+    h3.instrument-title { font-size: 30px; }
+    h3.work-title { font-size: 30px; }
+    .instrument-kicker { font-size: 18px; }
+    body { font-size: 18px; line-height: 1.6; }
+    header.masthead {
+      padding-bottom: 52px;
+      margin-bottom: 68px;
+    }
+    .instrument {
+      margin-bottom: 56px;
+      padding-bottom: 48px;
+    }
+    .subsection-header h3.subsection-title { font-size: 26px; }
+    footer { margin-top: 100px; }
+}
+
+  /* ---- Fade-in on load ---- */
+
+  @keyframes fadeUp {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  header.masthead,
+  .part-one,
+  .part-two {
+    animation: fadeUp 0.9s ease-out both;
+  }
+  .part-one { animation-delay: 0.3s; }
+  .part-two { animation-delay: 0.4s; }
+
+  /* ---- ADDITIONS — not present in the source file; see the header ---- */
+
+  :root {
+    /* Canonical names for two tokens the source spells differently.
+       Aliases, not new colours — the values are the source's own. */
+    --border: var(--rule);
+    --ink-muted: var(--ink-faint);
+
+    /* The interface sans and the monospace. Stack names carried from the
+       published Codex Vini leaf. The Google Fonts request belongs in the
+       shell's document head, one request listing only the families that
+       page uses (§4.8). */
+    --sans: 'DM Sans', system-ui, sans-serif;
+    --mono: 'JetBrains Mono', ui-monospace, monospace;
+  }
