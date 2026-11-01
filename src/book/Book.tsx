@@ -3,10 +3,17 @@ import { Link } from 'react-router'
 import { CODEX, entryStore, type Entry } from '../entries/index.ts'
 
 // The Book: every entry in the codex, read through the seam a page at a
-// time and ordered by rating, highest first. The seam pages in its own
-// order, so the whole book is read before it is ordered.
+// time and ordered by rating, highest first, and among equal ratings by
+// date tasted, most recent first. The seam pages in its own order, so the
+// whole book is read before it is ordered.
 
 const PAGE_SIZE = 100
+
+// Dates are ISO, YYYY-MM-DD, so they compare as strings. An entry with no
+// date follows those with one.
+function byRatingThenDate(a: Entry, b: Entry): number {
+  return b.rating - a.rating || (b.dateTasted ?? '').localeCompare(a.dateTasted ?? '')
+}
 
 async function readBook(): Promise<Entry[]> {
   const entries: Entry[] = []
@@ -16,7 +23,7 @@ async function readBook(): Promise<Entry[]> {
     entries.push(...page.entries)
     cursor = page.nextCursor
   } while (cursor !== undefined)
-  return entries.sort((a, b) => b.rating - a.rating)
+  return entries.sort(byRatingThenDate)
 }
 
 function Row({ entry }: { entry: Entry }) {
