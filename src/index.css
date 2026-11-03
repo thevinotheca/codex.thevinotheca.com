@@ -228,6 +228,76 @@ button.action:disabled {
   opacity: 0.6;
 }
 
+/* Two actions side by side, the quieter one first. */
+
+.action-pair {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+}
+
+.action-quiet {
+  color: var(--wine);
+  background: transparent;
+  box-shadow: inset 0 0 0 1px var(--wine);
+}
+
+.action-quiet:active {
+  color: var(--paper);
+  background: var(--wine-dark);
+}
+
+/* The Entry screen. Each recorded field under its label, the wine set as
+   the Book's row sets it. */
+
+.entry {
+  margin: 8px 0 40px;
+}
+
+.entry-field {
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+  overflow-wrap: anywhere;
+}
+
+.entry dd {
+  margin: 2px 0 0;
+  font-size: 17px;
+  color: var(--ink);
+}
+
+.entry-producer {
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 22px;
+  line-height: 1.2;
+}
+
+.entry-wine {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--ink-soft);
+}
+
+.entry-mono {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+}
+
+.entry-rating {
+  font-size: 18px;
+  color: var(--wine);
+}
+
+.entry-confirm {
+  font-family: var(--serif);
+  font-size: 20px;
+  line-height: 1.3;
+  color: var(--ink);
+  margin: 0 0 12px;
+}
+
 /* The entry form. The four required fields sit above the fold, vintage and
    rating side by side; the optional fields follow below a hairline. Inputs
    are at least 16px so a phone does not zoom into them. */

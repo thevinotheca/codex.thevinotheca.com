@@ -11,6 +11,13 @@ export const COLOURS = ['red', 'white', 'sparkling', 'rosé'] as const
 
 export type Colour = (typeof COLOURS)[number]
 
+export const COLOUR_LABELS: Record<Colour, string> = {
+  red: 'Red',
+  white: 'White',
+  sparkling: 'Sparkling',
+  rosé: 'Rosé',
+}
+
 const TASTERANK: Partial<Record<Colour, string[]>> = {
   red: grapes.tasterank_reds,
   white: grapes.tasterank_whites,

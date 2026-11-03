@@ -8,7 +8,7 @@ import {
   type Entry,
   type EntryFields,
 } from '../entries/index.ts'
-import { COLOURS, colourOf } from '../reference/grapes.ts'
+import { COLOUR_LABELS, COLOURS, colourOf } from '../reference/grapes.ts'
 
 // The entry form: one screen in two modes, new and edit. It writes through
 // the seam alone, and validation is the seam's; the form's own constraints
@@ -21,13 +21,6 @@ import { COLOURS, colourOf } from '../reference/grapes.ts'
 // resolved to nothing.
 
 type Values = Record<keyof EntryFields, string>
-
-const COLOUR_LABELS: Record<(typeof COLOURS)[number], string> = {
-  red: 'Red',
-  white: 'White',
-  sparkling: 'Sparkling',
-  rosé: 'Rosé',
-}
 
 // Today in the member's own time zone, YYYY-MM-DD.
 function today(): string {
