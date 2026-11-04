@@ -4,6 +4,7 @@ import { test } from 'node:test'
 import { openDB } from 'idb'
 import { newEntryId, SCHEMA_VERSION, type EntryDraft } from '../src/entries/entry.ts'
 import { LocalEntryStore } from '../src/entries/local.ts'
+import { exportFile, importEntries, parseExport } from '../src/account/transfer.ts'
 
 // The harness for the seam's local implementation, run against an in-memory
 // IndexedDB. "Reload" closes the connection and opens a new store on the same
@@ -227,6 +228,34 @@ test('schema-version migration is performed in place', async () => {
   const tombstone = records.find((r) => r.id === gone.id)
   assert.equal(tombstone?.country, 'ITALY')
   assert.ok(tombstone?.deletedAt)
+})
+
+test('import writes what is new and skips what is held, deleted included', async () => {
+  const phone = new LocalEntryStore({ name: 'import-phone' })
+  const shared = await phone.createEntry(CODEX, draft({ grape: 'Gamay' }))
+  const deleted = await phone.createEntry(CODEX, draft({ grape: 'Syrah' }))
+  const fresh = await phone.createEntry(CODEX, draft({ grape: 'Riesling', latitude: 49.9, longitude: 7.1 }))
+  const items = parseExport(await (await exportFile(phone)).text())
+  await phone.close()
+
+  const mac = new LocalEntryStore({ name: 'import-mac' })
+  const own = await mac.createEntry(CODEX, draft())
+  await mac.createEntry(CODEX, { ...shared })
+  await mac.createEntry(CODEX, { ...deleted })
+  await mac.deleteEntry(deleted.id)
+  // A file can carry a tombstone or a bad entry; neither is written.
+  items.push({ ...draft(), codex: CODEX, deletedAt: new Date().toISOString() }, { ...draft({ rating: 11 }), codex: CODEX }, 'x')
+
+  assert.deepEqual(await importEntries(mac, items), { written: 1, skipped: 2, refused: 3 })
+  assert.deepEqual(await importEntries(mac, items), { written: 0, skipped: 3, refused: 3 })
+  assert.equal(await mac.getEntry(deleted.id), undefined)
+  const ids = (await mac.exportEntries()).map((e) => e.id)
+  assert.equal(ids.length, 3)
+  assert.ok([own.id, shared.id, fresh.id].every((id) => ids.includes(id)))
+  assert.equal((await mac.getEntry(fresh.id))?.latitude, 49.9)
+  assert.ok((await mac.exportEntries()).every((e) => e.deletedAt === undefined))
+  await assert.rejects(async () => parseExport('{}'), /list/)
+  await mac.close()
 })
 
 test('geocoding cache is created empty', async () => {

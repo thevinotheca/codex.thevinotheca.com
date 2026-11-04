@@ -376,6 +376,49 @@ button.action:disabled {
   margin: 0 0 8px;
 }
 
+/* Account. The counts after an import, set large enough to read at arm's
+   length; the file picker sits hidden inside the Import action. */
+
+.transfer-result {
+  margin: 8px 0 40px;
+}
+
+.transfer-count {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 16px;
+  padding: 12px 0;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.transfer-count dt {
+  font-family: var(--serif);
+  font-size: 20px;
+  color: var(--ink);
+}
+
+.transfer-count dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 22px;
+  color: var(--wine);
+}
+
+.transfer-file {
+  display: none;
+}
+
+label.action {
+  cursor: pointer;
+}
+
+.action-busy {
+  opacity: 0.6;
+  pointer-events: none;
+}
+
 @media (max-width: 640px) {
   .meta { flex-basis: 100%; }
 }

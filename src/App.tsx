@@ -1,12 +1,13 @@
 import type { ReactNode } from 'react'
 import { Link, Route, Routes } from 'react-router'
+import Account from './account/Account.tsx'
 import Book from './book/Book.tsx'
 import EntryScreen from './entry/Entry.tsx'
 import { EditEntry, NewEntry } from './form/EntryForm.tsx'
 
 // The Book is the landing place and the hub. Every other screen carries a
-// back control to its parent. The entry screens are drawn; the rest are
-// placeholders so far.
+// back control to its parent. The entry screens and Account are drawn; the
+// rest are placeholders so far.
 
 interface Back {
   to: string
@@ -32,7 +33,7 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Book />} />
-      <Route path="/account" element={<Screen title="Account" back={BOOK} />} />
+      <Route path="/account" element={<Account />} />
       <Route
         path="/where-you-have-been"
         element={
