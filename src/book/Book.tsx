@@ -1,6 +1,6 @@
 import { useEffect, useMemo, useState, type KeyboardEvent, type ReactNode } from 'react'
-import { Link } from 'react-router'
-import { CODEX, entryStore, type Entry } from '../entries/index.ts'
+import { Link, useLocation } from 'react-router'
+import type { Entry } from '../entries/index.ts'
 import { COLOUR_LABELS, type Colour } from '../reference/grapes.ts'
 import {
   filterEntries,
@@ -12,22 +12,18 @@ import {
   type Options,
   type Sort,
 } from './filter.ts'
+import { readBook } from './read.ts'
 
-// The Book: every entry in the codex, read through the seam a page at a
-// time. The seam pages in its own order, so the whole book is read before
-// it is filtered and ordered; the panel works over the whole of it.
+// The Book: every entry in the codex, read whole before it is filtered and
+// ordered; the panel works over the whole of it.
 
-const PAGE_SIZE = 100
-
-async function readBook(): Promise<Entry[]> {
-  const entries: Entry[] = []
-  let cursor: string | undefined
-  do {
-    const page = await entryStore.listEntries(CODEX, { limit: PAGE_SIZE, cursor })
-    entries.push(...page.entries)
-    cursor = page.nextCursor
-  } while (cursor !== undefined)
-  return entries
+// A region tapped at Where you have been arrives with the country it sat
+// under, and the Book opens with those two controls set.
+function arrived(state: unknown): Filters {
+  const place = state as { country?: unknown; region?: unknown } | null
+  return typeof place?.country === 'string' && typeof place.region === 'string'
+    ? { ...NO_FILTERS, country: place.country, region: place.region }
+    : NO_FILTERS
 }
 
 function Row({ entry }: { entry: Entry }) {
@@ -148,7 +144,8 @@ function Panel({ filters, setFilters, options, showing, total }: {
 function Book() {
   const [entries, setEntries] = useState<Entry[]>()
   const [failed, setFailed] = useState(false)
-  const [filters, setFilters] = useState(NO_FILTERS)
+  const location = useLocation()
+  const [filters, setFilters] = useState(() => arrived(location.state))
 
   useEffect(() => {
     let live = true
@@ -195,6 +192,21 @@ function Book() {
             showing={shown.length}
             total={entries.length}
           />
+          {/* The region is named whichever way it was chosen; the other
+              controls are reported by the count alone. */}
+          {filters.region && (
+            <p className="filter-region">
+              <span>{filters.region}</span>
+              <button
+                className="filter-region-clear"
+                type="button"
+                aria-label={`Clear ${filters.region}`}
+                onClick={() => updateFilters({ ...filters, region: '' })}
+              >
+                Clear
+              </button>
+            </p>
+          )}
           {shown.length > 0 ? (
             <ol className="book">
               {shown.map((entry) => <Row key={entry.id} entry={entry} />)}
@@ -206,7 +218,9 @@ function Book() {
       )}
 
       <ul className="screen-links">
-        <li><Link to="/where-you-have-been">Where you have been</Link></li>
+        {entries && entries.length > 0 && (
+          <li><Link to="/where-you-have-been">Where you have been</Link></li>
+        )}
         <li><Link to="/account">Account</Link></li>
       </ul>
 

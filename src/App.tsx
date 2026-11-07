@@ -1,20 +1,20 @@
-import type { ReactNode } from 'react'
 import { Link, Route, Routes } from 'react-router'
 import Account from './account/Account.tsx'
 import Book from './book/Book.tsx'
 import EntryScreen from './entry/Entry.tsx'
 import { EditEntry, NewEntry } from './form/EntryForm.tsx'
+import Where from './where/Where.tsx'
 
 // The Book is the landing place and the hub. Every other screen carries a
-// back control to its parent. The entry screens and Account are drawn; the
-// rest are placeholders so far.
+// back control to its parent. The entry screens, Account and Where you have
+// been are drawn; the Atlas is a placeholder so far.
 
 interface Back {
   to: string
   label: string
 }
 
-function Screen({ title, back, children }: { title: string; back: Back; children?: ReactNode }) {
+function Screen({ title, back }: { title: string; back: Back }) {
   return (
     <main className="screen">
       <header className="screen-header">
@@ -22,26 +22,16 @@ function Screen({ title, back, children }: { title: string; back: Back; children
         <h1 className="screen-title">{title}</h1>
       </header>
       <p className="screen-note">Placeholder</p>
-      {children && <ul className="screen-links">{children}</ul>}
     </main>
   )
 }
-
-const BOOK: Back = { to: '/', label: 'The Book' }
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Book />} />
       <Route path="/account" element={<Account />} />
-      <Route
-        path="/where-you-have-been"
-        element={
-          <Screen title="Where you have been" back={BOOK}>
-            <li><Link to="/atlas">The Atlas</Link></li>
-          </Screen>
-        }
-      />
+      <Route path="/where-you-have-been" element={<Where />} />
       <Route
         path="/atlas"
         element={<Screen title="The Atlas" back={{ to: '/where-you-have-been', label: 'Where you have been' }} />}

@@ -283,10 +283,45 @@ main.screen {
   cursor: default;
 }
 
+/* The region chosen, named above the list however it was chosen, with the
+   control that clears it. */
+
+.filter-region {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin: 8px 0 0;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+}
+
+.filter-region-clear {
+  flex: none;
+  min-height: 44px;
+  padding: 0 0 0 12px;
+  font-family: var(--sans);
+  font-size: 14px;
+  color: var(--wine);
+  background: transparent;
+  border: 0;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.filter-region-clear:active {
+  color: var(--wine-dark);
+}
+
 .filter-bar + .book,
 .filter-panel + .book,
+.filter-region + .book,
 .filter-bar + .book-line,
-.filter-panel + .book-line {
+.filter-panel + .book-line,
+.filter-region + .book-line {
   margin-top: 8px;
 }
 
@@ -520,6 +555,112 @@ label.action {
 .action-busy {
   opacity: 0.6;
   pointer-events: none;
+}
+
+/* Where you have been. The three totals across the top; each country under
+   its name with its count, its regions beneath, each region a tap into the
+   Book. What is counted and not placed is set quietly and is not a tap. */
+
+.places-totals {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 16px 0 8px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.places-total {
+  display: flex;
+  flex-direction: column-reverse;
+}
+
+.places-total dt {
+  font-size: 13px;
+  color: var(--ink-muted);
+}
+
+.places-total dd {
+  margin: 0;
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 28px;
+  line-height: 1.2;
+  color: var(--wine);
+}
+
+.places {
+  list-style: none;
+  margin: 0 0 24px;
+  padding: 0;
+}
+
+.place {
+  margin-top: 24px;
+}
+
+.place-country {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: baseline;
+  padding-bottom: 6px;
+  border-bottom: 1px solid var(--border);
+  overflow-wrap: anywhere;
+}
+
+.place-name {
+  margin: 0;
+  font-family: var(--serif);
+  font-weight: 500;
+  font-size: 24px;
+  line-height: 1.2;
+  color: var(--ink);
+}
+
+.place-count {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 16px;
+  color: var(--wine);
+}
+
+.place-regions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.place-regions li {
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.place-region {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  column-gap: 16px;
+  align-items: center;
+  min-height: 44px;
+  padding: 6px 0;
+  box-sizing: border-box;
+  font-family: var(--serif);
+  font-size: 19px;
+  line-height: 1.25;
+  color: var(--ink);
+  text-decoration: none;
+  overflow-wrap: anywhere;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.place-region:active {
+  background: var(--paper-deep);
+}
+
+.place-unplaced {
+  margin: 0;
+  padding: 10px 0;
+  font-size: 14px;
+  color: var(--ink-muted);
 }
 
 @media (max-width: 640px) {
