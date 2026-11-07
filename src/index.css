@@ -187,6 +187,109 @@ main.screen {
   margin-top: 2px;
 }
 
+/* The filter panel, above the list. The search field and the control
+   beside it stay in view as the list scrolls, so the count of what is
+   showing can be read anywhere in the Book; the solid shadow covers the
+   safe area above it. The rest opens in place below and pushes the list
+   down. */
+
+.filter-bar {
+  margin-top: 16px;
+  position: sticky;
+  top: env(safe-area-inset-top);
+  z-index: 3;
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 8px;
+  padding: 8px 0;
+  background: var(--paper);
+  box-shadow: 0 calc(-1 * env(safe-area-inset-top)) 0 var(--paper);
+}
+
+.filter-search {
+  box-sizing: border-box;
+  width: 100%;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 12px;
+  font-family: var(--sans);
+  font-size: 17px;
+  color: var(--ink);
+  background: var(--paper-raised);
+  border: 1px solid var(--border);
+  border-radius: 2px;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.filter-search:focus {
+  outline: 2px solid var(--wine-light);
+  outline-offset: -1px;
+}
+
+.filter-toggle {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  justify-content: center;
+  min-height: 44px;
+  min-width: 88px;
+  padding: 0 12px;
+  font-family: var(--sans);
+  color: var(--wine);
+  background: transparent;
+  border: 1px solid var(--wine);
+  border-radius: 2px;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.filter-toggle:active {
+  color: var(--paper);
+  background: var(--wine-dark);
+}
+
+.filter-toggle-label {
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.2;
+}
+
+.filter-count {
+  font-family: var(--mono);
+  font-variant-numeric: tabular-nums;
+  font-size: 13px;
+  line-height: 1.3;
+  white-space: nowrap;
+}
+
+.filter-panel {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  padding: 8px 0 16px;
+  border-bottom: 1px solid color-mix(in srgb, var(--border) 50%, transparent);
+}
+
+.filter-reset {
+  grid-column: 1 / -1;
+  width: 100%;
+  font-family: inherit;
+  cursor: pointer;
+}
+
+.filter-reset:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
+
+.filter-bar + .book,
+.filter-panel + .book,
+.filter-bar + .book-line,
+.filter-panel + .book-line {
+  margin-top: 8px;
+}
+
 /* A screen's own actions, held at the foot of the screen. There is no
    global bar. */
 
