@@ -68,12 +68,6 @@ main.screen {
   margin: 0 0 8px;
 }
 
-.screen-note {
-  font-size: 14px;
-  color: var(--ink-muted);
-  margin: 0 0 32px;
-}
-
 .screen-links {
   list-style: none;
   margin: 0;
@@ -662,6 +656,75 @@ label.action {
   font-size: 14px;
   color: var(--ink-muted);
 }
+
+/* The Atlas: the map edge to edge inside the safe-area insets, and its
+   chrome floating over the tiles on paper of its own, so that it reads over
+   land, settlement and water alike. */
+
+main.atlas {
+  position: fixed;
+  inset: 0;
+  background: var(--paper);
+}
+
+.atlas-map {
+  position: absolute;
+  top: env(safe-area-inset-top);
+  right: env(safe-area-inset-right);
+  bottom: env(safe-area-inset-bottom);
+  left: env(safe-area-inset-left);
+  background: var(--paper-deep);
+}
+
+.atlas-chip {
+  position: absolute;
+  z-index: 1000;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+  min-height: 44px;
+  margin: 0;
+  padding: 0 16px;
+  max-width: calc(100% - env(safe-area-inset-left) - env(safe-area-inset-right) - 24px);
+  font-size: 15px;
+  background: var(--paper-raised);
+  border: 1px solid var(--border);
+  border-radius: 22px;
+  box-shadow: 0 1px 4px rgb(31 26 22 / 0.25);
+}
+
+.atlas-back {
+  top: calc(env(safe-area-inset-top) + 12px);
+  left: calc(env(safe-area-inset-left) + 12px);
+  color: var(--wine);
+  text-decoration: none;
+  -webkit-tap-highlight-color: transparent;
+}
+
+.atlas-back:active {
+  color: var(--wine-dark);
+}
+
+.atlas-unplaced {
+  top: calc(env(safe-area-inset-top) + 64px);
+  left: calc(env(safe-area-inset-left) + 12px);
+  color: var(--ink-soft);
+}
+
+/* A pin by the wine's colour; one whose grape resolves to none in a
+   neutral of its own. */
+
+.pin {
+  stroke: var(--ink);
+  stroke-width: 1.5;
+  fill-opacity: 0.9;
+}
+
+.pin-red { fill: var(--wine); }
+.pin-white { fill: #e8d48b; }
+.pin-sparkling { fill: #f4ecc2; }
+.pin-rosé { fill: #e59a94; }
+.pin-none { fill: var(--ink-faint); }
 
 @media (max-width: 640px) {
   .meta { flex-basis: 100%; }
