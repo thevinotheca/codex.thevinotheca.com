@@ -221,6 +221,9 @@ function Book() {
         {entries && entries.length > 0 && (
           <li><Link to="/where-you-have-been">Where you have been</Link></li>
         )}
+        {/* Offered at every width and on any record; the screen states
+            what it cannot yet draw. */}
+        <li><Link to="/collection">The Collection</Link></li>
         <li><Link to="/account">Account</Link></li>
       </ul>
 

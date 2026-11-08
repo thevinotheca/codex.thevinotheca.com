@@ -1,0 +1,340 @@
+{
+  "_source": {
+    "file": "chronicle/codex-vini/region_classifications.json in thevinotheca/thevinotheca.com",
+    "commit": "669c973f023d151141233c353870178a02df10df",
+    "committed": "2026-09-25",
+    "carried": "2026-11-08",
+    "rule": "PROJECT.md 4.8",
+    "note": "Carried reference data, not the canonical file. Only this _source key is added here; the classifications below are the source's own and are not edited in this repository. A change wanted in them is made in the Library and this file re-copied."
+  },
+  "Alsace": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Baden": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "pdf-direct"
+  },
+  "Barossa": {
+    "world": "New World",
+    "country": "Australia",
+    "source": "inferred-from-country"
+  },
+  "Beaujolais": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Bordeaux": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Burgundy": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Campania": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Castilla y León": {
+    "world": "Old World",
+    "country": "Spain",
+    "source": "inferred-from-country"
+  },
+  "Catalonia": {
+    "world": "Old World",
+    "country": "Spain",
+    "source": "pdf-direct"
+  },
+  "Central Otago": {
+    "world": "New World",
+    "country": "New Zealand",
+    "source": "inferred-from-country"
+  },
+  "Champagne": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Columbia Valley": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Crozes-Hermitage": {
+    "world": "Old World",
+    "country": "France",
+    "source": "inferred-from-country"
+  },
+  "Finger Lakes": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Friuli-Venezia Giulia": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Galicia": {
+    "world": "Old World",
+    "country": "Spain",
+    "source": "pdf-direct"
+  },
+  "Hawke's Bay": {
+    "world": "New World",
+    "country": "New Zealand",
+    "source": "pdf-direct"
+  },
+  "Hvar": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Kamptal": {
+    "world": "Old World",
+    "country": "Austria",
+    "source": "pdf-direct"
+  },
+  "Liguria": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Loire Valley": {
+    "world": "Old World",
+    "country": "France",
+    "source": "inferred-from-country"
+  },
+  "Maipo Valley": {
+    "world": "New World",
+    "country": "Chile",
+    "source": "pdf-direct"
+  },
+  "Marlborough": {
+    "world": "New World",
+    "country": "New Zealand",
+    "source": "pdf-direct"
+  },
+  "Mendoza": {
+    "world": "New World",
+    "country": "Argentina",
+    "source": "pdf-direct"
+  },
+  "Mosel": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "pdf-direct"
+  },
+  "Nahe": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "pdf-direct"
+  },
+  "Napa Valley": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Northern Rhone": {
+    "world": "Old World",
+    "country": "France",
+    "source": "inferred-from-country"
+  },
+  "Paso Robles": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Pfalz": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "pdf-direct"
+  },
+  "Piedmont": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Provence": {
+    "world": "Old World",
+    "country": "France",
+    "source": "pdf-direct"
+  },
+  "Rheingau": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "pdf-direct"
+  },
+  "Rioja": {
+    "world": "Old World",
+    "country": "Spain",
+    "source": "pdf-direct"
+  },
+  "San Luis Obispo Coast": {
+    "world": "New World",
+    "country": "USA",
+    "source": "inferred-from-country"
+  },
+  "Santa Barbara": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Santa Cruz Mountains": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Sardinia": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Sicily": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Sonoma": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "South Australia": {
+    "world": "New World",
+    "country": "Australia",
+    "source": "inferred-from-country"
+  },
+  "Southern Rhone": {
+    "world": "Old World",
+    "country": "France",
+    "source": "inferred-from-country"
+  },
+  "Swartland": {
+    "world": "New World",
+    "country": "South Africa",
+    "source": "pdf-direct"
+  },
+  "Südsteiermark": {
+    "world": "Old World",
+    "country": "Austria",
+    "source": "inferred-from-country"
+  },
+  "Thessalia": {
+    "world": "Old World",
+    "country": "Greece",
+    "source": "inferred-from-country"
+  },
+  "Trentino": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "inferred-from-country"
+  },
+  "Tuscany": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Veneto": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "pdf-direct"
+  },
+  "Wagram": {
+    "world": "Old World",
+    "country": "Austria",
+    "source": "pdf-direct"
+  },
+  "Willamette Valley": {
+    "world": "New World",
+    "country": "USA",
+    "source": "pdf-direct"
+  },
+  "Štajerska": {
+    "world": "Old World",
+    "country": "Slovenia",
+    "source": "inferred-from-country"
+  },
+  "Alto Adige": {
+    "world": "Old World",
+    "country": "Italy",
+    "source": "inferred-from-country"
+  },
+  "Bekaa Valley": {
+    "world": "Old World",
+    "country": "Lebanon",
+    "source": "inferred-from-country"
+  },
+  "Franken": {
+    "world": "Old World",
+    "country": "Germany",
+    "source": "inferred-from-country"
+  },
+  "Goriška Brda": {
+    "world": "Old World",
+    "country": "Slovenia",
+    "source": "inferred-from-country"
+  },
+  "Istria": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Komarna": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Konavle": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Leithaberg": {
+    "world": "Old World",
+    "country": "Austria",
+    "source": "inferred-from-country"
+  },
+  "Pelješac": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Río Negro": {
+    "world": "New World",
+    "country": "Argentina",
+    "source": "inferred-from-country"
+  },
+  "Slavonia": {
+    "world": "Old World",
+    "country": "Croatia",
+    "source": "inferred-from-country"
+  },
+  "Slovenian Istria": {
+    "world": "Old World",
+    "country": "Slovenia",
+    "source": "inferred-from-country"
+  },
+  "Vinho Verde": {
+    "world": "Old World",
+    "country": "Portugal",
+    "source": "inferred-from-country"
+  },
+  "Vipava Valley": {
+    "world": "Old World",
+    "country": "Slovenia",
+    "source": "inferred-from-country"
+  },
+  "Wachau": {
+    "world": "Old World",
+    "country": "Austria",
+    "source": "inferred-from-country"
+  }
+}
