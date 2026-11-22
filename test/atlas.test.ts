@@ -98,3 +98,14 @@ test('the lookup is the carried file less its _source key', () => {
   assert.equal(LOOKUP.has('_source'), false)
   assert.equal(LOOKUP.size, 65)
 })
+
+test('the carried file wins a collision with the additions, and the additions fill what it lacks', () => {
+  const lookup = lookupOf(
+    { _source: {}, Shared: { lat: 1, lng: 1 } },
+    { _source: {}, Shared: { lat: 2, lng: 2 }, Added: { lat: 3, lng: 3 } },
+  )
+  assert.deepEqual(lookup.get('Shared'), { lat: 1, lng: 1 })
+  assert.deepEqual(lookup.get('Added'), { lat: 3, lng: 3 })
+  assert.equal(lookup.has('_source'), false)
+  assert.equal(lookup.size, 2)
+})

@@ -1,0 +1,9 @@
+{
+  "_source": {
+    "note": "Regions the carried regions.json lacks, with their coordinates. This file exists because the carried file's _source rule permits only that key to be added there, and that file is not amended. Where the Atlas resolves a region the two are merged and the carried file wins on collision, so this file means only what the carry lacks: a key here that the carried file also holds is redundant and removable. This file is the seed of the geocoding cache and is superseded by the geocoding service when it exists."
+  },
+  "Rías Baixas": {
+    "lat": 42.231,
+    "lng": -8.712
+  }
+}

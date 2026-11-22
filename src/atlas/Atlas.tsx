@@ -5,6 +5,7 @@ import 'leaflet/dist/leaflet.css'
 import { readBook } from '../book/read.ts'
 import { colourOf } from '../reference/grapes.ts'
 import regions from '../reference/regions.json'
+import additions from '../reference/regions.additions.json'
 import { atlasOf, lookupOf, unplacedLine, type AtlasData } from './pins.ts'
 
 // The Atlas: the whole book on a map, edge to edge inside the safe-area
@@ -16,7 +17,7 @@ import { atlasOf, lookupOf, unplacedLine, type AtlasData } from './pins.ts'
 // The basemap is standard XYZ raster tiles, taken provisionally; the tiles
 // are the screen's only outbound flow.
 
-const LOOKUP = lookupOf(regions)
+const LOOKUP = lookupOf(regions, additions)
 
 const TILES = 'https://tile.openstreetmap.org/{z}/{x}/{y}.png'
 const ATTRIBUTION = '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'

@@ -28,10 +28,11 @@ export interface AtlasData {
   unplaced: number
 }
 
-// The carried file, less its _source key.
-export function lookupOf(json: Record<string, unknown>): Lookup {
+// The carried file merged with the additions, less each _source key. The
+// carried file is spread last and wins on collision.
+export function lookupOf(carried: Record<string, unknown>, additions: Record<string, unknown> = {}): Lookup {
   return new Map(
-    Object.entries(json).filter(([key]) => key !== '_source') as [string, Place][],
+    Object.entries({ ...additions, ...carried }).filter(([key]) => key !== '_source') as [string, Place][],
   )
 }
 
