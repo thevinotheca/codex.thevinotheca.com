@@ -30,7 +30,9 @@ export async function requestLink(email: string): Promise<SignInState> {
   }
 }
 
-export async function signOut(): Promise<string | undefined> {
-  const { error } = await backend.auth.signOut()
-  return error ? 'Signing out did not complete. Try again.' : undefined
+// Sign out ends the session on this device only. The client removes it
+// before asking the provider to revoke it, so this never waits on the
+// network; signing out everywhere would be a different control.
+export async function signOut(): Promise<void> {
+  await backend.auth.signOut({ scope: 'local' })
 }

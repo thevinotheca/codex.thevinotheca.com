@@ -14,19 +14,19 @@ test('a request that succeeded selects the one address-dependent message', () =>
   assert.equal(stateOfRequest(null), 'requested')
 })
 
-test('every refusal that depends on the address selects that same message', () => {
-  // Registration closed, the per-address interval, the hourly cap, and the
-  // sender refusing an address off the team: none may be told apart.
-  for (const status of [400, 403, 422, 429]) {
+test('every response from the provider, server errors included, selects that same message', () => {
+  // Registration closed, the per-address interval, the hourly cap, the
+  // sender refusing an address off the team, and a failed send: each is a
+  // response, and a limit or a failed send arises only where a link would
+  // be sent, so none may be told apart.
+  for (const status of [400, 403, 422, 429, 500, 502, 503, 504, 522]) {
     assert.equal(stateOfRequest({ status }), 'requested', `status ${status}`)
   }
   assert.equal(stateOfRequest({}), 'requested')
 })
 
-test('no answer from the network, or a server error, selects unavailable', () => {
-  for (const status of [0, 500, 502, 503, 504, 522]) {
-    assert.equal(stateOfRequest({ status }), 'unavailable', `status ${status}`)
-  }
+test('only a failure with no response at all selects unavailable', () => {
+  assert.equal(stateOfRequest({ status: 0 }), 'unavailable')
 })
 
 test('the requested message states the cap without saying whether it applied', () => {

@@ -17,15 +17,10 @@ function Account() {
   const [result, setResult] = useState<ImportResult>()
   const [error, setError] = useState<string>()
 
-  async function leave() {
+  function leave() {
     if (busy) return
     setBusy(true)
-    setError(undefined)
-    const failure = await signOut()
-    if (failure) {
-      setError(failure)
-      setBusy(false)
-    }
+    void signOut()
   }
 
   async function exportRecord() {

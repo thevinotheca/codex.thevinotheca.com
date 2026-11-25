@@ -4,11 +4,12 @@
 //
 // Three states, not four. The provider returns one code, otp_expired, for a
 // link that has expired and for one already used, so the two are one state.
-// And every outcome that depends on the address (sent, refused for want of
-// an account, refused by a sending limit that applies only where a link
-// would be sent) is one state, so the screen never discloses whether an
-// address has an account. Only a failure that is the same for every address
-// (no answer from the network, or a server error) is told apart.
+// And every outcome carrying an answer from the provider is one state, so
+// the screen never discloses whether an address has an account: a refusal
+// for want of an account, a sending limit, and a server error alike, since
+// a limit or a failed send arises only where a link would be sent. Only a
+// failure with no answer at all is the same for every address, and only
+// that is told apart.
 
 export type SignInState = 'requested' | 'link-invalid' | 'unavailable'
 
@@ -24,12 +25,10 @@ export const SIGN_IN_MESSAGES: Record<SignInState, string> = {
 export const COMPLETION_PATH = '/sign-in/complete'
 
 // The outcome of requesting a link: the error the client returned, if any.
-// The client reports no answer from the network as status 0 and a server
-// error by its 5xx status.
+// The client marks a failure that received no HTTP response with status 0;
+// any other status is a response, and takes the address-dependent message.
 export function stateOfRequest(error: { status?: number } | null): SignInState {
-  const status = error?.status
-  if (status !== undefined && (status === 0 || status >= 500)) return 'unavailable'
-  return 'requested'
+  return error?.status === 0 ? 'unavailable' : 'requested'
 }
 
 // The outcome of following a link, read from the address it returned to.
