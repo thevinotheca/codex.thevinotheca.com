@@ -1,16 +1,32 @@
 import { useState, type ChangeEvent } from 'react'
 import { Link } from 'react-router'
 import { entryStore } from '../entries/index.ts'
+import { signOut } from '../session/auth.ts'
+import { useSession } from '../session/context.ts'
 import { exportFile, exportFileName, importEntries, parseExport, type ImportResult } from './transfer.ts'
 
-// Account: export and import of the whole record. The account half arrives
-// with accounts and is not drawn here. Import writes what is new and skips
-// every identifier the store already holds, deleted ones included.
+// Account: the address signed in and Sign out, then export and import of the
+// whole record. Account deletion is not drawn. Import writes what is new and
+// skips every identifier the store already holds, deleted ones included.
+// Signing out ends the session, and the shell's gate answers with the
+// sign-in screen.
 
 function Account() {
+  const { email } = useSession()
   const [busy, setBusy] = useState(false)
   const [result, setResult] = useState<ImportResult>()
   const [error, setError] = useState<string>()
+
+  async function leave() {
+    if (busy) return
+    setBusy(true)
+    setError(undefined)
+    const failure = await signOut()
+    if (failure) {
+      setError(failure)
+      setBusy(false)
+    }
+  }
 
   async function exportRecord() {
     if (busy) return
@@ -53,6 +69,19 @@ function Account() {
         <Link className="back" to="/">‹ The Book</Link>
         <h1 className="screen-title">Account</h1>
       </header>
+
+      <dl className="transfer-result">
+        <div className="transfer-count account-address">
+          <dt>Signed in as</dt>
+          <dd>{email}</dd>
+        </div>
+      </dl>
+
+      <ul className="screen-links">
+        <li>
+          <button type="button" onClick={leave} disabled={busy}>Sign out</button>
+        </li>
+      </ul>
 
       {result && (
         <dl className="transfer-result" aria-live="polite">

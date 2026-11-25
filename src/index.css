@@ -79,7 +79,8 @@ main.screen {
   border-bottom: 1px solid var(--border);
 }
 
-.screen-links a {
+.screen-links a,
+.screen-links button {
   display: flex;
   align-items: center;
   min-height: 48px;
@@ -88,7 +89,20 @@ main.screen {
   -webkit-tap-highlight-color: transparent;
 }
 
-.screen-links a:active {
+/* A control set as a link row: Sign out on Account. */
+.screen-links button {
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  font: inherit;
+  text-align: left;
+  background: none;
+  border: 0;
+  cursor: pointer;
+}
+
+.screen-links a:active,
+.screen-links button:active {
   color: var(--wine-dark);
 }
 
@@ -536,6 +550,17 @@ button.action:disabled {
   font-variant-numeric: tabular-nums;
   font-size: 22px;
   color: var(--wine);
+}
+
+/* The address is text, not a count: set in the body face and allowed to
+   break, since an address can outrun a phone's width. */
+.account-address dd {
+  min-width: 0;
+  font-family: var(--sans);
+  font-size: 16px;
+  color: var(--ink);
+  overflow-wrap: anywhere;
+  text-align: right;
 }
 
 .transfer-file {
