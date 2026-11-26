@@ -195,6 +195,52 @@ test('deleteEntry advances updatedAt past the prior update', async () => {
   assert.equal(tombstone.deletedAt, tombstone.updatedAt)
 })
 
+// The clock held still, as two writes landing in one millisecond would find
+// it. Only Date is replaced; the timers IndexedDB runs on are not.
+const HELD = Date.parse('2026-11-26T10:00:00.000Z')
+
+test('two updates to one entry with the clock held still carry strictly increasing updatedAt, a millisecond apart', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: HELD })
+  const store = new LocalEntryStore({ name: 'held-updates' })
+  const created = await store.createEntry(CODEX, draft())
+  const first = await store.updateEntry(created.id, { rating: 6 })
+  const second = await store.updateEntry(created.id, { rating: 7 })
+  await store.close()
+  assert.equal(Date.parse(created.updatedAt), HELD)
+  assert.ok(Date.parse(first.updatedAt) > Date.parse(created.updatedAt))
+  assert.ok(Date.parse(second.updatedAt) > Date.parse(first.updatedAt))
+  assert.equal(Date.parse(second.updatedAt) - Date.parse(first.updatedAt), 1)
+})
+
+test('a deletion straight after a creation with the clock held still leaves a tombstone later than the entry, deletedAt equal to updatedAt', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: HELD })
+  const name = 'held-delete'
+  const store = new LocalEntryStore({ name })
+  const created = await store.createEntry(CODEX, draft())
+  await store.deleteEntry(created.id)
+  await store.close()
+  const tombstone = (await raw(name)).records.find((r) => r.id === created.id)
+  assert.ok(tombstone)
+  assert.ok(Date.parse(tombstone.updatedAt) > Date.parse(created.updatedAt))
+  assert.equal(tombstone.deletedAt, tombstone.updatedAt)
+})
+
+test('where the clock is past the existing updatedAt, the clock is used and not the existing plus one', async (t) => {
+  t.mock.timers.enable({ apis: ['Date'], now: HELD })
+  const name = 'clock-floor'
+  const store = new LocalEntryStore({ name })
+  const created = await store.createEntry(CODEX, draft())
+  t.mock.timers.setTime(HELD + 5_000)
+  const updated = await store.updateEntry(created.id, { rating: 6 })
+  assert.equal(Date.parse(updated.updatedAt), HELD + 5_000)
+  t.mock.timers.setTime(HELD + 9_000)
+  await store.deleteEntry(created.id)
+  await store.close()
+  const tombstone = (await raw(name)).records.find((r) => r.id === created.id)
+  assert.equal(Date.parse(tombstone.updatedAt), HELD + 9_000)
+  assert.equal(tombstone.deletedAt, tombstone.updatedAt)
+})
+
 test('schema-version migration is performed in place', async () => {
   const name = 'migration'
   const v1 = new LocalEntryStore({ name })

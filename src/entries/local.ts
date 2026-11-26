@@ -63,6 +63,15 @@ function isLive(entry: Entry | undefined): entry is Entry {
   return entry !== undefined && entry.deletedAt === undefined
 }
 
+// The updatedAt for a local write over an existing record: the clock, unless
+// the clock is not past the record's, and then the record's advanced by a
+// millisecond. The comparison is strict on both sides, so two writes to one
+// entry under one timestamp would leave the second unsent. A floor, not a
+// counter. Only local writes take it; records from the server keep theirs.
+function stamp(existing: Entry): string {
+  return new Date(Math.max(Date.now(), Date.parse(existing.updatedAt) + 1)).toISOString()
+}
+
 async function migrate(
   tx: IDBPTransaction<CodexDB, StoreNames<CodexDB>[], 'versionchange'>,
   target: number,
@@ -178,7 +187,7 @@ export class LocalEntryStore implements EntryStore {
       if (key in patch) Object.assign(entry, { [key]: patch[key] })
     }
     validateFields(entry)
-    entry.updatedAt = new Date().toISOString()
+    entry.updatedAt = stamp(existing)
     await tx.store.put(entry)
     await tx.done
     return entry
@@ -190,7 +199,7 @@ export class LocalEntryStore implements EntryStore {
     if (!isLive(existing)) throw new Error(`No entry ${id}`)
     // The tombstone advances updatedAt, so it wins last-write-wins against
     // an earlier edit made elsewhere.
-    const now = new Date().toISOString()
+    const now = stamp(existing)
     await tx.store.put({ ...existing, deletedAt: now, updatedAt: now })
     await tx.done
   }

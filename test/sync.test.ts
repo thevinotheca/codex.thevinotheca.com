@@ -534,6 +534,32 @@ test('the strict comparison resolves equal updatedAt to the existing row and gre
   assert.equal(payloadOf(rows[0]).rating, 2)
 })
 
+test('two updates to one entry inside a millisecond, each pushed: the second reaches the server and is not superseded', async (t) => {
+  // The clock held still; only Date is replaced.
+  t.mock.timers.enable({ apis: ['Date'], now: Date.parse('2026-11-26T10:00:00.000Z') })
+  const { client, rows, requests } = standIn()
+  const a = device('sync-held-clock', client)
+  a.consent.set('confirmed')
+  const created = await a.store.createEntry(CODEX, draft({ rating: 5 }))
+  await a.sync.sessionChanged(true)
+  assert.equal(rows.length, 1)
+
+  await a.store.updateEntry(created.id, { rating: 6 })
+  await a.sync.request()
+  assert.equal(payloadOf(rows[0]).rating, 6)
+
+  const second = await a.store.updateEntry(created.id, { rating: 7 })
+  requests.length = 0
+  await a.sync.request()
+  assert.deepEqual(methodsOf(requests), ['GET', 'PATCH'])
+  assert.deepEqual(requests[1].response, [{ id: created.id }])
+  assert.equal(payloadOf(rows[0]).rating, 7)
+  assert.equal(Date.parse(rows[0].updated_at as string), Date.parse(second.updatedAt))
+  assert.equal(a.sync.getState().phase, 'idle')
+  assert.equal(a.sync.getState().pending?.size, 0)
+  await a.store.close()
+})
+
 test('no push is attempted at an origin whose confirmation has not been given, and one is attempted the moment it has', async () => {
   const { client, rows, requests } = standIn()
   const a = device('sync-gate-accept', client)
