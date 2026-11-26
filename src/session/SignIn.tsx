@@ -1,22 +1,51 @@
 import { useState, type FormEvent } from 'react'
-import { requestLink } from './auth.ts'
-import { SIGN_IN_MESSAGES, stateOfReturn, type SignInState } from './states.ts'
+import { requestCode, verifyCode } from './auth.ts'
+import { SIGN_IN_MESSAGES, type SignInState } from './states.ts'
 
-// The sign-in screen: one field for an address, one action. What follows a
-// request never discloses whether the address has an account.
+// The sign-in screen, in two steps: an address and a request for a code;
+// then the code, typed here, in the browser that will hold the record. What
+// follows either step never discloses whether the address has an account.
+// The code's format is guarded loosely: its length is not relied upon, and
+// the provider alone decides whether it is valid.
 
 function SignIn() {
-  const [state, setState] = useState<SignInState | undefined>(() => stateOfReturn(window.location.href))
-  const [sending, setSending] = useState(false)
+  const [email, setEmail] = useState('')
+  const [step, setStep] = useState<'address' | 'code'>('address')
+  const [state, setState] = useState<SignInState | undefined>()
+  const [busy, setBusy] = useState(false)
 
   async function send(event: FormEvent<HTMLFormElement>) {
     event.preventDefault()
-    if (sending) return
-    const email = String(new FormData(event.currentTarget).get('email') ?? '')
-    setSending(true)
-    setState(await requestLink(email))
-    setSending(false)
+    if (busy) return
+    const address = String(new FormData(event.currentTarget).get('email') ?? '').trim()
+    setEmail(address)
+    setBusy(true)
+    const next = await requestCode(address)
+    setState(next)
+    if (next === 'requested') setStep('code')
+    setBusy(false)
   }
+
+  async function verify(event: FormEvent<HTMLFormElement>) {
+    event.preventDefault()
+    if (busy) return
+    const token = String(new FormData(event.currentTarget).get('code') ?? '').replace(/\s/g, '')
+    if (!token) return
+    setBusy(true)
+    setState(await verifyCode(email, token))
+    setBusy(false)
+  }
+
+  function back() {
+    setState(undefined)
+    setStep('address')
+  }
+
+  const message = (
+    <div aria-live="polite">
+      {state && <p className="book-line">{SIGN_IN_MESSAGES[state]}</p>}
+    </div>
+  )
 
   return (
     <main className="screen">
@@ -24,22 +53,47 @@ function SignIn() {
         <h1 className="screen-title">Sign in</h1>
       </header>
 
-      <form className="entry-form" onSubmit={send}>
-        <div className="form-required">
-          <label className="field">
-            <span className="field-label">Email address</span>
-            <input name="email" type="email" autoComplete="email" required />
-          </label>
-        </div>
+      {step === 'address' ? (
+        <form className="entry-form" onSubmit={send}>
+          <div className="form-required">
+            <label className="field">
+              <span className="field-label">Email address</span>
+              <input name="email" type="email" autoComplete="email" defaultValue={email} required />
+            </label>
+          </div>
 
-        <div aria-live="polite">
-          {state && <p className="book-line">{SIGN_IN_MESSAGES[state]}</p>}
-        </div>
+          {message}
 
-        <nav className="screen-actions">
-          <button className="action" type="submit" disabled={sending}>Send link</button>
-        </nav>
-      </form>
+          <nav className="screen-actions">
+            <button className="action" type="submit" disabled={busy}>Send code</button>
+          </nav>
+        </form>
+      ) : (
+        <form className="entry-form" onSubmit={verify}>
+          <div className="form-required">
+            <p className="book-line">{email}</p>
+            <label className="field">
+              <span className="field-label">Code</span>
+              <input
+                name="code"
+                type="text"
+                inputMode="numeric"
+                autoComplete="one-time-code"
+                autoCapitalize="off"
+                spellCheck={false}
+                required
+              />
+            </label>
+          </div>
+
+          {message}
+
+          <nav className="screen-actions">
+            <button className="action" type="button" onClick={back} disabled={busy}>Change address</button>
+            <button className="action" type="submit" disabled={busy}>Sign in</button>
+          </nav>
+        </form>
+      )}
     </main>
   )
 }

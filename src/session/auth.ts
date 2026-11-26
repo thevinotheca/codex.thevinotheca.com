@@ -1,10 +1,12 @@
 import { backend } from '../backend/client.ts'
 import type { SessionStatus } from './gate.ts'
-import { COMPLETION_PATH, stateOfRequest, type SignInState } from './states.ts'
+import { stateOfRequest, stateOfVerification, type SignInState } from './states.ts'
 
 // Every call the application makes to the provider's sign-in, in one place.
-// The request carries no parameter restricting the link to an existing user:
-// registration is refused by the provider's own setting alone.
+// The request carries no parameter restricting the code to an existing user:
+// registration is refused by the provider's own setting alone. It carries no
+// redirect target either: what the mail holds is a code, not a link, and
+// which of the two it holds is the provider's template's to decide.
 
 export interface SessionState {
   status: SessionStatus
@@ -18,13 +20,21 @@ export function onSession(listener: (state: SessionState) => void): () => void {
   return () => data.subscription.unsubscribe()
 }
 
-export async function requestLink(email: string): Promise<SignInState> {
+export async function requestCode(email: string): Promise<SignInState> {
   try {
-    const { error } = await backend.auth.signInWithOtp({
-      email,
-      options: { emailRedirectTo: `${window.location.origin}${COMPLETION_PATH}` },
-    })
+    const { error } = await backend.auth.signInWithOtp({ email })
     return stateOfRequest(error)
+  } catch {
+    return 'unavailable'
+  }
+}
+
+// A verified code establishes the session through the client, which tells
+// the listener above; nothing here acts on success.
+export async function verifyCode(email: string, token: string): Promise<SignInState | undefined> {
+  try {
+    const { error } = await backend.auth.verifyOtp({ email, token, type: 'email' })
+    return stateOfVerification(error)
   } catch {
     return 'unavailable'
   }
