@@ -1,4 +1,5 @@
 import { createClient } from '@supabase/supabase-js'
+import type { Database } from './sync.ts'
 
 // The one client for the backend provider. Nothing else in src constructs
 // one. Both values are the public halves, designed to stand in a served
@@ -8,4 +9,4 @@ import { createClient } from '@supabase/supabase-js'
 const PROJECT_URL = 'https://wxzemffiljeaydslmuyt.supabase.co'
 const PUBLISHABLE_KEY = 'sb_publishable_uEBLvXfWlOMNweX3D3fu1w_mQrE11t1'
 
-export const backend = createClient(PROJECT_URL, PUBLISHABLE_KEY)
+export const backend = createClient<Database>(PROJECT_URL, PUBLISHABLE_KEY)

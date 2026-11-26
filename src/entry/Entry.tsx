@@ -1,6 +1,7 @@
 import { useEffect, useState, type ReactNode } from 'react'
 import { Link, useNavigate, useParams } from 'react-router'
 import { entryStore, type Entry, type EntryFields } from '../entries/index.ts'
+import { useSync } from '../backend/runtime.ts'
 import { COLOUR_LABELS, type Colour } from '../reference/grapes.ts'
 
 // The Entry screen: one wine, read through the seam. Every field the member
@@ -49,6 +50,7 @@ function Name({ entry }: { entry: Entry }) {
 function EntryScreen() {
   const { id = '' } = useParams()
   const navigate = useNavigate()
+  const sync = useSync()
   const [entry, setEntry] = useState<Entry | null>()
   const [confirming, setConfirming] = useState(false)
   const [deleting, setDeleting] = useState(false)
@@ -63,7 +65,7 @@ function EntryScreen() {
     return () => {
       live = false
     }
-  }, [id])
+  }, [id, sync.revision])
 
   async function remove() {
     if (deleting) return
@@ -88,6 +90,9 @@ function EntryScreen() {
       {entry === null && <p className="book-line">This entry could not be found.</p>}
       {entry && (
         <>
+          {sync.pending?.has(entry.id) && (
+            <p className="entry-unsynced">Saved on this device; not yet synced.</p>
+          )}
           <dl className="entry">
             {(Object.keys(LABELS) as (keyof EntryFields)[])
               .filter((key) => recorded(entry, key))

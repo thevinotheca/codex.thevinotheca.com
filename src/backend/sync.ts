@@ -141,18 +141,37 @@ export interface Pending {
   update: readonly Entry[]
 }
 
+export interface Pushed {
+  // Identifiers whose conditional update matched no row: the server already
+  // held this write or a later one. Not an error.
+  superseded: string[]
+}
+
 // Writes the given rows. A deletion is an update carrying deleted_at; nothing
 // is ever deleted. Every row is mapped before any request, so an entry the
 // wire refuses sends nothing at all.
-export async function push(client: Backend, { insert, update }: Pending): Promise<void> {
+//
+// An update lands only on a row whose updated_at is strictly less than the
+// device's, and reads back what it changed. No row is ever removed, so an
+// empty read-back means the row held an equal or greater updated_at: another
+// device won, or this same write landed on an earlier attempt.
+export async function push(client: Backend, { insert, update }: Pending): Promise<Pushed> {
   const inserts = insert.map(toInsert)
   const updates = update.map((entry) => [entry.id, toUpdate(entry)] as const)
+  const superseded: string[] = []
   if (inserts.length > 0) {
     const { error } = await client.from('entries').insert(inserts)
     if (error) throw error
   }
   for (const [id, row] of updates) {
-    const { error } = await client.from('entries').update(row).eq('id', id)
+    const { data, error } = await client
+      .from('entries')
+      .update(row)
+      .eq('id', id)
+      .lt('updated_at', row.updated_at)
+      .select('id')
     if (error) throw error
+    if (data.length === 0) superseded.push(id)
   }
+  return { superseded }
 }

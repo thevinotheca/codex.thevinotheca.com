@@ -207,4 +207,34 @@ export class LocalEntryStore implements EntryStore {
     }
     return [...values].sort((a, b) => a.localeCompare(b))
   }
+
+  // What follows is not the seam and no screen reaches it: the EntryStore
+  // interface does not carry it. It is for the synchroniser alone, which has
+  // to read tombstones off the device and write records under the
+  // updatedAt another device gave them.
+
+  // Every record in the codex, tombstones included.
+  async readRecords(codex: Codex): Promise<Entry[]> {
+    const range = IDBKeyRange.bound([codex, ''], [codex, []])
+    return (await this.open()).getAllFromIndex('entries', 'codex', range)
+  }
+
+  // Writes each record whose updatedAt is strictly greater than the one the
+  // device holds, or that the device does not hold. The comparison is made
+  // inside the write, so an edit made since the record was pulled is kept.
+  // Returns the identifiers written.
+  async applyRecords(records: readonly Entry[]): Promise<string[]> {
+    if (records.length === 0) return []
+    const tx = (await this.open()).transaction('entries', 'readwrite')
+    const written: string[] = []
+    for (const record of records) {
+      const held = await tx.store.get(record.id)
+      if (held === undefined || Date.parse(record.updatedAt) > Date.parse(held.updatedAt)) {
+        await tx.store.put(record)
+        written.push(record.id)
+      }
+    }
+    await tx.done
+    return written
+  }
 }

@@ -1,5 +1,6 @@
 import { useEffect, useMemo, useState, type KeyboardEvent, type ReactNode } from 'react'
 import { Link, useLocation } from 'react-router'
+import { synchroniser, useSync } from '../backend/runtime.ts'
 import type { Entry } from '../entries/index.ts'
 import { COLOUR_LABELS, type Colour } from '../reference/grapes.ts'
 import {
@@ -26,7 +27,7 @@ function arrived(state: unknown): Filters {
     : NO_FILTERS
 }
 
-function Row({ entry }: { entry: Entry }) {
+function Row({ entry, unsynced }: { entry: Entry; unsynced: boolean }) {
   return (
     <li>
       <Link className="row" to={`/entries/${entry.id}`}>
@@ -36,6 +37,7 @@ function Row({ entry }: { entry: Entry }) {
         </span>
         <span className="row-rating">{entry.rating.toFixed(1)}</span>
         {entry.dateTasted && <span className="row-date">{entry.dateTasted}</span>}
+        {unsynced && <span className="row-unsynced">Not yet synced</span>}
       </Link>
     </li>
   )
@@ -141,7 +143,37 @@ function Panel({ filters, setFilters, options, showing, total }: {
   )
 }
 
+// The member's answer to whether the entries this device held before the
+// account are to be added to it. Until it is given, nothing is sent.
+function Attach({ count }: { count: number }) {
+  const one = count === 1
+  return (
+    <div className="sync-attach">
+      <p className="entry-confirm">
+        This device holds {count} {one ? 'entry' : 'entries'} not yet in your account.
+        Add {one ? 'it' : 'them'} to your account?
+      </p>
+      <div className="action-pair">
+        <button className="action action-quiet" type="button" onClick={() => synchroniser.decline()}>
+          Not now
+        </button>
+        <button className="action" type="button" onClick={() => void synchroniser.confirm()}>
+          Add
+        </button>
+      </div>
+    </div>
+  )
+}
+
+// One line for the whole Book while a synchronisation runs or after one has
+// failed; nothing when it is done.
+const SYNC_LINES = {
+  syncing: 'Synchronising. Every entry is safe on this device.',
+  failed: 'Not synchronised. Every entry is safe on this device and will be sent again.',
+}
+
 function Book() {
+  const sync = useSync()
   const [entries, setEntries] = useState<Entry[]>()
   const [failed, setFailed] = useState(false)
   const location = useLocation()
@@ -156,7 +188,7 @@ function Book() {
     return () => {
       live = false
     }
-  }, [])
+  }, [sync.revision])
 
   const options = useMemo(() => optionsOf(entries ?? [], filters.country), [entries, filters.country])
 
@@ -178,6 +210,9 @@ function Book() {
           <div className="author">Jure Skarabot · New York</div>
         </div>
       </header>
+
+      {sync.phase !== 'idle' && <p className="sync-line" role="status">{SYNC_LINES[sync.phase]}</p>}
+      {sync.question && <Attach count={sync.question.count} />}
 
       {failed && <p className="book-line">The book could not be opened.</p>}
       {entries?.length === 0 && (
@@ -209,7 +244,7 @@ function Book() {
           )}
           {shown.length > 0 ? (
             <ol className="book">
-              {shown.map((entry) => <Row key={entry.id} entry={entry} />)}
+              {shown.map((entry) => <Row key={entry.id} entry={entry} unsynced={sync.pending?.has(entry.id) ?? false} />)}
             </ol>
           ) : (
             <p className="book-line">No wine in the Book matches.</p>
