@@ -1,6 +1,6 @@
 # codex.thevinotheca.com
 
-This repository holds the member Chronicle served at codex.thevinotheca.com, built by Cloudflare Pages from the `main` branch. The repository is public and carries every working file in it into publication, this file included. Nothing enters it that is not intended for publication: no working documents, drafts, notes or planning material; no credentials, keys, tokens or connection strings; and no member data of any kind.
+This repository holds the member Chronicle served at my.thevinotheca.com, built by Cloudflare Pages from the `main` branch. The repository and the hosting project keep the name `codex.thevinotheca.com`, which was the address until 2026-11-27 and is now internal: nothing is served there. The repository is public and carries every working file in it into publication, this file included. Nothing enters it that is not intended for publication: no working documents, drafts, notes or planning material; no credentials, keys, tokens or connection strings; and no member data of any kind.
 
 ## Conventions
 

@@ -1,7 +1,9 @@
 # Codex Vini — the member Chronicle
 
 The front end of the member Chronicle, served at
-[codex.thevinotheca.com](https://codex.thevinotheca.com).
+[my.thevinotheca.com](https://my.thevinotheca.com). The repository and the
+hosting project keep the name they were created with; it is not the address,
+and the old one serves nothing.
 
 Part of [Vinotheca](https://thevinotheca.com). The Library is published
 separately from its own repository and its own hosting project.
